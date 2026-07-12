@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FocusLock</string>
+    <string name="accessibility_service_description">يراقب هذا التطبيق النص الظاهر على الشاشة محليًا فقط. فور رصد كلمة محددة اخترتها بنفسك، يغلق التطبيق المفتوح ويحظر فتحه لمدة نصف ساعة. لا يتم إرسال أي بيانات خارج الجهاز.</string>
+</resources>
