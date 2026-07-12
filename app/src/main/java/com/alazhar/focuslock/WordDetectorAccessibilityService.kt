@@ -15,11 +15,12 @@ class WordDetectorAccessibilityService : AccessibilityService() {
     private val protectedPackages: Set<String> by lazy { buildProtectedPackages() }
 
     private fun buildProtectedPackages(): Set<String> {
+        val myOwnPackage = applicationContext.packageName
         val protected = mutableSetOf(
             "com.android.systemui",
             "com.android.settings",
             "android",
-            packageName
+            myOwnPackage
         )
         try {
             val homeIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
@@ -29,17 +30,22 @@ class WordDetectorAccessibilityService : AccessibilityService() {
             packageManager.queryIntentActivities(homeIntent, PackageManager.MATCH_ALL)
                 .forEach { protected.add(it.activityInfo.packageName) }
         } catch (e: Exception) {
+            // تجاهل أي خطأ هنا؛ القائمة الثابتة أعلاه تبقى خط الدفاع الأول
         }
         return protected
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
-        val packageName = event.packageName?.toString() ?: return
+        val eventPackage = event.packageName?.toString() ?: return
 
-        if (packageName in protectedPackages || packageName.contains("systemui")) return
+        // حماية مطلقة أولى: تجاهل تطبيق FocusLock نفسه دائمًا، قبل أي فحص آخر
+        if (eventPackage == applicationContext.packageName) return
 
-        if (WordsRepository.isAppBlocked(this, packageName)) {
+        // حماية ثانية: واجهة النظام، الشاشة الرئيسية، والإعدادات
+        if (eventPackage in protectedPackages || eventPackage.contains("systemui")) return
+
+        if (WordsRepository.isAppBlocked(this, eventPackage)) {
             performGlobalAction(GLOBAL_ACTION_HOME)
             return
         }
@@ -55,7 +61,7 @@ class WordDetectorAccessibilityService : AccessibilityService() {
         for (word in blockedWords) {
             val w = word.trim().lowercase()
             if (w.isNotEmpty() && content.contains(w)) {
-                WordsRepository.blockApp(this, packageName, BLOCK_DURATION_MS)
+                WordsRepository.blockApp(this, eventPackage, BLOCK_DURATION_MS)
                 performGlobalAction(GLOBAL_ACTION_HOME)
                 break
             }
