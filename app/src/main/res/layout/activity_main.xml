@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FocusLock"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp"
+            android:text="احمِ تركيزك من المحتوى المشتت"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextSecondary" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/colorCard"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📝 الكلمات المراقَبة"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="كل كلمة في سطر منفصل"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextWords"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:gravity="top|start"
+                        android:inputType="textMultiLine"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:text="حفظ الكلمات"
+                    android:textSize="15sp"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="@color/colorPrimary" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/colorCard"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙️ تفعيل الخدمة"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="لازم تفعّلها من إعدادات الجهاز حتى تعمل المراقبة"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEnableService"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="تفعيل خدمة إمكانية الوصول"
+                    android:textSize="15sp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/colorEmergencyBackground"
+            app:strokeColor="@color/colorEmergency"
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🆘 طوارئ"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorEmergency" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="إذا انحظر تطبيق بالخطأ، اضغط هذا الزر لإلغاء الحظر فورًا"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorTextSecondary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonClearBlocks"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="إلغاء أي حظر عالق الآن"
+                    android:textSize="15sp"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="@color/colorEmergency" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="عند رصد أي كلمة، سيُغلق التطبيق المفتوح تلقائيًا ويُحظر فتحه مجددًا لمدة نصف ساعة."
+            android:textSize="12sp"
+            android:textColor="@color/colorTextSecondary"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</ScrollView>
