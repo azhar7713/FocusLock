@@ -135,6 +135,18 @@
                     app:strokeColor="@color/colorPrimary"
                     android:textColor="@color/colorPrimary" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEnableOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="10dp"
+                    android:text="السماح بالعرض فوق التطبيقات"
+                    android:textSize="15sp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimary" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
