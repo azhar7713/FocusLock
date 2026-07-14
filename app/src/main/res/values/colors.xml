@@ -9,4 +9,5 @@
     <color name="colorTextSecondary">#71695A</color>
     <color name="colorEmergency">#B3261E</color>
     <color name="colorEmergencyBackground">#FBECEA</color>
+    <color name="iconBackground">#0B3D2E</color>
 </resources>
