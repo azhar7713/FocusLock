@@ -13,7 +13,6 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import android.widget.Toast
 import android.provider.Settings
-import java.util.regex.Pattern
 
 class WordDetectorAccessibilityService : AccessibilityService() {
 
@@ -67,10 +66,14 @@ class WordDetectorAccessibilityService : AccessibilityService() {
         val typedText = event.text?.joinToString(" ") ?: return
         if (typedText.isBlank()) return
 
+        // نطبّع وننقسم النص المكتوب مرة واحدة فقط (أداء أفضل بدل تكراره داخل كل مقارنة)
+        val normalizedContent = normalizeArabic(typedText.lowercase())
+        val contentTokens = tokenize(normalizedContent)
+
         for (word in blockedWords) {
             val w = word.trim()
             if (w.isEmpty()) continue
-            if (containsWholeWord(typedText, w)) {
+            if (containsWholeWordFixed(normalizedContent, contentTokens, w)) {
                 val now = System.currentTimeMillis()
                 if (now - lastActionTime < DEBOUNCE_MS) return
                 lastActionTime = now
@@ -82,16 +85,56 @@ class WordDetectorAccessibilityService : AccessibilityService() {
         }
     }
 
-    private fun containsWholeWord(content: String, word: String): Boolean {
-        return try {
-            val pattern = Pattern.compile(
-                "\\b" + Pattern.quote(word) + "\\b",
-                Pattern.CASE_INSENSITIVE or Pattern.UNICODE_CASE or Pattern.UNICODE_CHARACTER_CLASS
-            )
-            pattern.matcher(content).find()
-        } catch (e: Exception) {
-            content.lowercase().contains(word.lowercase())
+    /**
+     * تطبيع النص العربي:
+     * - إزالة التشكيل (الحركات)
+     * - إزالة حرف التطويل (الكشيدة)
+     * - توحيد أشكال الألف والهمزات إلى "ا"
+     */
+    private fun normalizeArabic(input: String): String {
+        var s = input
+
+        // إزالة الحركات والتشكيل
+        s = s.replace(Regex("[\\u064B-\\u065F\\u0670\\u06D6-\\u06ED]"), "")
+
+        // إزالة حرف التطويل (الكشيدة)
+        s = s.replace("\u0640", "")
+
+        // توحيد أشكال الألف والهمزة
+        s = s.replace(Regex("[إأآا]"), "ا")
+
+        return s.trim()
+    }
+
+    /**
+     * تقسيم النص إلى كلمات فعلية بدل الاعتماد على \b
+     * (\b غير موثوق مع النصوص العربية على بعض أجهزة Android)
+     */
+    private fun tokenize(text: String): List<String> {
+        return text.split(Regex("[^\\p{L}\\p{N}]+"))
+            .filter { it.isNotBlank() }
+    }
+
+    /**
+     * مطابقة الكلمة الممنوعة مع النص المكتوب:
+     * - مطابقة تامة لكلمة واحدة داخل قائمة الكلمات المقسّمة (tokens)
+     * - أو مطابقة جزئية (contains) في حال كانت الكلمة الممنوعة عبارة من أكثر من كلمة
+     */
+    private fun containsWholeWordFixed(
+        normalizedContent: String,
+        contentTokens: List<String>,
+        word: String
+    ): Boolean {
+        val normalizedWord = normalizeArabic(word.lowercase())
+        if (normalizedWord.isEmpty()) return false
+
+        // عبارة مكوّنة من أكثر من كلمة -> نبحث عنها كسلسلة متصلة داخل النص الكامل
+        if (normalizedWord.contains(" ")) {
+            return normalizedContent.contains(normalizedWord)
         }
+
+        // كلمة واحدة -> مطابقة تامة مع إحدى الكلمات المقسّمة
+        return contentTokens.any { it == normalizedWord }
     }
 
     private fun showReminder() {
